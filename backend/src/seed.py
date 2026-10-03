@@ -1,162 +1,142 @@
-seed = {
-  "building": [
-    {
-      "id": 1,
-      "name": "name 1",
-      "campus": "campus 1",
-      "floor_count": "floor count 1",
-      "fire_grade": "fire grade 1",
-      "manager_id": 1,
-      "address_code": "address code 1"
-    },
-    {
-      "id": 2,
-      "name": "name 2",
-      "campus": "campus 2",
-      "floor_count": "floor count 2",
-      "fire_grade": "fire grade 2",
-      "manager_id": 2,
-      "address_code": "address code 2"
-    },
-    {
-      "id": 3,
-      "name": "name 3",
-      "campus": "campus 3",
-      "floor_count": "floor count 3",
-      "fire_grade": "fire grade 3",
-      "manager_id": 3,
-      "address_code": "address code 3"
-    }
-  ],
-  "fireDevice": [
-    {
-      "id": 1,
-      "building_id": 1,
-      "device_code": "device code 1",
-      "device_type": "HYDRANT",
-      "floor": "floor 1",
-      "location_desc": "location desc 1",
-      "install_date": "2026-06-11T09:00:00Z",
-      "status": "IN_PROGRESS",
-      "next_maintenance_at": "2026-06-11T09:00:00Z"
-    },
-    {
-      "id": 2,
-      "building_id": 2,
-      "device_code": "device code 2",
-      "device_type": "SMOKE_DETECTOR",
-      "floor": "floor 2",
-      "location_desc": "location desc 2",
-      "install_date": "2026-06-12T09:00:00Z",
-      "status": "SUBMITTED",
-      "next_maintenance_at": "2026-06-12T09:00:00Z"
-    },
-    {
-      "id": 3,
-      "building_id": 3,
-      "device_code": "device code 3",
-      "device_type": "SPRINKLER",
-      "floor": "floor 3",
-      "location_desc": "location desc 3",
-      "install_date": "2026-06-13T09:00:00Z",
-      "status": "PLANNED",
-      "next_maintenance_at": "2026-06-13T09:00:00Z"
-    }
-  ],
-  "inspectionTask": [
-    {
-      "id": 1,
-      "building_id": 1,
-      "inspector_id": 1,
-      "plan_date": "2026-06-11T09:00:00Z",
-      "task_type": "HYDRANT",
-      "status": "IN_PROGRESS",
-      "checklist_version": "checklist version 1",
-      "finished_at": "2026-06-11T09:00:00Z"
-    },
-    {
-      "id": 2,
-      "building_id": 2,
-      "inspector_id": 2,
-      "plan_date": "2026-06-12T09:00:00Z",
-      "task_type": "SMOKE_DETECTOR",
-      "status": "SUBMITTED",
-      "checklist_version": "checklist version 2",
-      "finished_at": "2026-06-12T09:00:00Z"
-    },
-    {
-      "id": 3,
-      "building_id": 3,
-      "inspector_id": 3,
-      "plan_date": "2026-06-13T09:00:00Z",
-      "task_type": "SPRINKLER",
-      "status": "PLANNED",
-      "checklist_version": "checklist version 3",
-      "finished_at": "2026-06-13T09:00:00Z"
-    }
-  ],
-  "inspectionResult": [
-    {
-      "id": 1,
-      "task_id": 1,
-      "device_id": 1,
-      "item_code": "item code 1",
-      "result_status": "IN_PROGRESS",
-      "measured_value": "measured value 1",
-      "photo_url": "/mock/photo_url-1.png",
-      "note": "note 1"
-    },
-    {
-      "id": 2,
-      "task_id": 2,
-      "device_id": 2,
-      "item_code": "item code 2",
-      "result_status": "SUBMITTED",
-      "measured_value": "measured value 2",
-      "photo_url": "/mock/photo_url-2.png",
-      "note": "note 2"
-    },
-    {
-      "id": 3,
-      "task_id": 3,
-      "device_id": 3,
-      "item_code": "item code 3",
-      "result_status": "PLANNED",
-      "measured_value": "measured value 3",
-      "photo_url": "/mock/photo_url-3.png",
-      "note": "note 3"
-    }
-  ],
-  "hazardTicket": [
-    {
-      "id": 1,
-      "result_id": 1,
-      "severity": "severity 1",
-      "owner_id": 1,
-      "deadline": "deadline 1",
-      "rectify_status": "IN_PROGRESS",
-      "rectify_note": "rectify note 1",
-      "closed_at": "2026-06-11T09:00:00Z"
-    },
-    {
-      "id": 2,
-      "result_id": 2,
-      "severity": "severity 2",
-      "owner_id": 2,
-      "deadline": "deadline 2",
-      "rectify_status": "SUBMITTED",
-      "rectify_note": "rectify note 2",
-      "closed_at": "2026-06-12T09:00:00Z"
-    },
-    {
-      "id": 3,
-      "result_id": 3,
-      "severity": "severity 3",
-      "owner_id": 3,
-      "deadline": "deadline 3",
-      "rectify_status": "PLANNED",
-      "rectify_note": "rectify note 3",
-      "closed_at": "2026-06-13T09:00:00Z"
-    }
-  ]
-}
+"""数据库种子：全部本地数据，无第三方 API。"""
+
+from __future__ import annotations
+
+from sqlalchemy import select
+
+from src.config.database import SessionLocal, init_schema
+from src.constants.device_compliance import DeviceBaseStatus
+from src.constants.device_type import DeviceType
+from src.constants.hazard_severity import HazardSeverity
+from src.constants.inspection_status import InspectionStatus
+from src.constants.user_role import UserRole
+from src.models.building import Building
+from src.models.fire_device import FireDevice
+from src.models.inspection_result import InspectionResult
+from src.models.inspection_task import InspectionTask
+from src.models.user_account import UserAccount
+from src.utils.security import hash_password
+
+SEED_USERS = [
+    ("inspector", "巡检员-王磊", UserRole.INSPECTOR, "inspect123"),
+    ("maintainer", "维保商-安泰消防", UserRole.MAINTAINER, "maintain123"),
+    ("supervisor", "物业主管-周敏", UserRole.SUPERVISOR, "super123"),
+    ("auditor", "审计员-陈立", UserRole.AUDITOR, "audit123"),
+]
+
+
+def seed_database() -> None:
+    init_schema()
+    db = SessionLocal()
+    try:
+        if db.scalars(select(UserAccount)).first():
+            return
+
+        for username, display_name, role, password in SEED_USERS:
+            db.add(
+                UserAccount(
+                    username=username,
+                    display_name=display_name,
+                    role=role,
+                    password_sha256=hash_password(password),
+                )
+            )
+
+        building = Building(
+            name="A 座研发楼",
+            campus="江北科技园",
+            floor_count=12,
+            fire_grade="GRADE_1",
+            manager_id=3,
+            address_code="320100-A01",
+        )
+        db.add(building)
+        db.flush()
+
+        devices = [
+            FireDevice(
+                building_id=building.id,
+                device_code="FE-HYDRANT-001",
+                device_type=DeviceType.HYDRANT,
+                floor="1",
+                location_desc="大堂东侧消火栓",
+                install_date="2024-05-01",
+                status=DeviceBaseStatus.NORMAL,
+                next_maintenance_at="2026-11-01",
+                owner_id=2,
+            ),
+            FireDevice(
+                building_id=building.id,
+                device_code="FE-SMOKE-001",
+                device_type=DeviceType.SMOKE_DETECTOR,
+                floor="3",
+                location_desc="3F 走廊烟感",
+                install_date="2024-05-01",
+                status=DeviceBaseStatus.NORMAL,
+                next_maintenance_at="2026-11-01",
+                owner_id=2,
+            ),
+            FireDevice(
+                building_id=building.id,
+                device_code="FE-EXIT-001",
+                device_type=DeviceType.EXIT_LIGHT,
+                floor="3",
+                location_desc="3F 疏散指示灯",
+                install_date="2024-05-01",
+                status=DeviceBaseStatus.NORMAL,
+                next_maintenance_at="2026-12-01",
+                owner_id=2,
+            ),
+        ]
+        db.add_all(devices)
+        db.flush()
+
+        task = InspectionTask(
+            building_id=building.id,
+            inspector_id=1,
+            plan_date="2026-10-03",
+            task_type="ROUTINE",
+            status=InspectionStatus.PLANNED,
+            checklist_version="v1",
+            revision=1,
+            checklist_items=[
+                {
+                    "item_code": "CHK-PRESSURE-1F",
+                    "device_id": devices[0].id,
+                    "title": "消火栓静水压力",
+                    "default_severity": HazardSeverity.HIGH,
+                    "active": True,
+                },
+                {
+                    "item_code": "CHK-SMOKE-3F",
+                    "device_id": devices[1].id,
+                    "title": "烟感探头响应",
+                    "default_severity": HazardSeverity.CRITICAL,
+                    "active": True,
+                },
+                {
+                    "item_code": "CHK-EXIT-3F",
+                    "device_id": devices[2].id,
+                    "title": "疏散指示标识",
+                    "default_severity": HazardSeverity.MEDIUM,
+                    "active": True,
+                },
+            ],
+        )
+        db.add(task)
+        db.flush()
+        for item in task.checklist_items:
+            db.add(
+                InspectionResult(
+                    task_id=task.id,
+                    device_id=item["device_id"],
+                    item_code=item["item_code"],
+                    result_status="PENDING",
+                    review_state="DRAFT",
+                    severity_hint=item["default_severity"],
+                    revision=1,
+                )
+            )
+        db.commit()
+    finally:
+        db.close()

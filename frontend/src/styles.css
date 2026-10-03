@@ -1,1 +1,32 @@
 :root{font-family:"Aptos","PingFang SC",system-ui,sans-serif;color:#20211d;background:#eef1e8}body{margin:0}.shell{min-height:100vh;display:grid;grid-template-columns:260px 1fr}aside{background:#223126;color:#f5f1e6;padding:28px 20px;border-right:6px solid #d39b46}.brand{font-size:20px;font-weight:800;line-height:1.25;margin-bottom:24px}nav{display:grid;gap:8px}button{border:0;background:transparent;color:inherit;text-align:left;padding:10px 12px;border-radius:6px;cursor:pointer}button.active,button:hover{background:#f5f1e6;color:#223126}.page{padding:30px;display:grid;gap:22px}.page-head{display:flex;align-items:flex-end;justify-content:space-between;border-bottom:1px solid #c9d0c3;padding-bottom:18px}.eyebrow{margin:0 0 8px;color:#7d4d18;text-transform:uppercase;font-size:12px;font-weight:800;letter-spacing:.08em}h1{font-size:clamp(28px,4vw,46px);margin:0;letter-spacing:0}h2{margin:0 0 14px;font-size:18px}.metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.stat,.panel{background:#fbfaf4;border:1px solid #d8d6c8;border-radius:8px;padding:18px}.stat span{display:block;color:#596257;font-size:13px}.stat strong{font-size:30px;color:#274335}.workbench{display:grid;grid-template-columns:2fr 1fr;gap:18px}.row{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:12px;border-top:1px solid #e4e0d3;padding:12px 0}.badge{display:inline-flex;align-items:center;min-height:24px;border-radius:999px;background:#e4efe4;color:#244b31;padding:2px 10px;font-size:12px;font-weight:800}.shared-widget,.empty{border:1px dashed #b8b09f;padding:14px;border-radius:8px}@media (max-width:760px){.shell{grid-template-columns:1fr}aside{position:static}.metrics,.workbench{grid-template-columns:1fr}.page{padding:18px}.page-head{align-items:flex-start;gap:12px;flex-direction:column}}
+
+/* ---- 复核链扩展样式 ---- */
+.badge.success{background:#dff0e2;color:#1d6b35}.badge.danger{background:#f7dcd8;color:#a5291c}
+.severity-low{background:#e9eef2;color:#41505e}.severity-medium{background:#fdf0d3;color:#8a5a12}
+.severity-high{background:#fbe2cf;color:#b4481a}.severity-critical{background:#f3c8c2;color:#8f1d12}
+.banner{padding:10px 14px;border-radius:8px;font-size:14px;margin:0}
+.banner.info{background:#e3edf7;color:#1f4e79;border:1px solid #b9d2ea}
+.banner.danger{background:#fae3df;color:#8f1d12;border:1px solid #eabbb4}
+.muted{color:#6a7267}.small{font-size:12px}
+.filter-bar{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap}
+.filter-bar label{display:flex;flex-direction:column;gap:6px;font-size:13px;color:#596257}
+select,input{padding:8px 10px;border:1px solid #c9c7b8;border-radius:6px;background:#fff;font:inherit}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+button.primary,button.chip{background:#274335;color:#f5f1e6;border-radius:6px;padding:8px 14px}
+button.chip{background:#e8e6da;color:#274335}button.chip.active{background:#d39b46;color:#223126}
+.inline-btn{padding:4px 8px;border:1px solid #c9c7b8;border-radius:6px;background:#fff;color:#274335}
+.row.head{font-size:12px;color:#7a8177;font-weight:800;text-transform:uppercase;letter-spacing:.05em}
+.row.danger-row{background:#fdf0ee;border-left:4px solid #c0392b;padding-left:10px}
+.checklist-row{grid-template-columns:2fr .6fr .8fr 1.2fr .8fr auto}
+.checklist .row{display:grid;grid-template-columns:2fr .6fr .8fr 1fr .8fr;gap:10px;align-items:center;border-top:1px solid #e4e0d3;padding:12px 0}
+.checklist-row.protected{background:#f3f6f0}
+.checklist-row.returned{background:#fdf6e7;border-left:4px solid #d39b46;padding-left:10px}
+.note-input{min-width:160px}.lock-tag{font-size:12px;color:#8a6d2f;background:#faf0d8;border-radius:999px;padding:2px 10px}
+.login-page{min-height:100vh;display:flex;align-items:center;justify-content:center;background:#eef1e8;padding:20px}
+.login-card{width:min(420px,100%);display:flex;flex-direction:column;gap:14px}
+.login-card label{display:flex;flex-direction:column;gap:6px;font-size:13px;color:#596257}
+.login-hints{display:flex;flex-direction:column;gap:6px}
+.user-card{background:#2f4233;border-radius:8px;padding:12px;margin-bottom:18px;display:flex;flex-direction:column;gap:2px}
+.user-card span{color:#cdd6c9;font-size:13px}
+.logout{margin-top:18px;border:1px solid #516157;color:#f5f1e6}
+.aside-hint{margin-top:22px;font-size:12px;color:#b9c2b5}.aside-hint p{margin-top:8px;line-height:1.5}

@@ -1,14 +1,23 @@
 import { create } from "zustand";
-import { listHazardTicket } from "../api/HazardTicket";
+import { listHazards } from "../api/HazardTicket";
 import type { HazardTicket } from "../types/HazardTicket";
 
-type State = { rows: HazardTicket[]; loading: boolean; load: () => Promise<void> };
+type State = {
+  rows: HazardTicket[];
+  loading: boolean;
+  load: (params?: { status?: string; device_id?: number }) => Promise<void>;
+};
 
 export const useHazardTicketStore = create<State>((set) => ({
   rows: [],
   loading: false,
-  async load() {
+  async load(params) {
     set({ loading: true });
-    set({ rows: await listHazardTicket(), loading: false });
-  }
+    try {
+      set({ rows: await listHazards(params), loading: false });
+    } catch (error) {
+      set({ loading: false });
+      throw error;
+    }
+  },
 }));

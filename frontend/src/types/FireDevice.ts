@@ -6,6 +6,10 @@ export interface FireDevice {
   floor: string;
   location_desc: string;
   install_date: string;
+  /** 台账展示状态：由未关闭隐患实时重算（高危隐患封锁时不会是 ACTIVE） */
   status: string;
-  next_maintenance_at: string;
+  /** 主数据状态：NORMAL / MAINTENANCE / RETIRED */
+  base_status: string;
+  next_maintenance_at: string | null;
+  owner_id: number | null;
 }

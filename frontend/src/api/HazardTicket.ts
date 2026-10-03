@@ -1,21 +1,37 @@
-import { mockData } from "../mocks/seedData";
+import { getJson, postJson } from "./client";
 import type { HazardTicket } from "../types/HazardTicket";
 
-const endpoint = "/api/hazard-ticket";
+const endpoint = "/api/hazards";
 
-export async function listHazardTicket(): Promise<HazardTicket[]> {
-  if (typeof fetch !== "undefined" && endpoint.startsWith("/api") && true) {
-    try {
-      const res = await fetch(endpoint);
-      if (res.ok) return await res.json();
-    } catch {
-      // Local mock fallback keeps the UI available during offline review.
-    }
-  }
-  return [...(mockData.hazardTicket as unknown as HazardTicket[])];
+export function listHazards(params?: {
+  status?: string;
+  device_id?: number;
+}): Promise<HazardTicket[]> {
+  const query = params
+    ? "?" + new URLSearchParams(
+        Object.entries(params)
+          .filter(([, v]) => v !== undefined)
+          .map(([k, v]) => [k, String(v)]),
+      ).toString()
+    : "";
+  return getJson<HazardTicket[]>(`${endpoint}${query}`);
 }
 
-export async function saveHazardTicket(payload: HazardTicket) {
-  console.info("save HazardTicket", payload);
-  return payload;
+/** 物业主管派单。 */
+export function assignHazard(hazardId: number, ownerId: number): Promise<HazardTicket> {
+  return postJson<HazardTicket>(`${endpoint}/${hazardId}/assign`, { owner_id: ownerId });
+}
+
+/** 维保商整改提交。 */
+export function rectifyHazard(hazardId: number, rectifyNote: string): Promise<HazardTicket> {
+  return postJson<HazardTicket>(`${endpoint}/${hazardId}/rectify`, { rectify_note: rectifyNote });
+}
+
+/** 物业主管复验：approved=false 时退回维保商继续整改。 */
+export function verifyHazard(
+  hazardId: number,
+  approved: boolean,
+  note: string,
+): Promise<HazardTicket> {
+  return postJson<HazardTicket>(`${endpoint}/${hazardId}/verify`, { approved, note });
 }

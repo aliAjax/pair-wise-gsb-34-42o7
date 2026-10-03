@@ -1,0 +1,24 @@
+class DeviceCompliance:
+    """设备台账/合规报表使用的有效合规状态（由未关闭隐患实时重算）。
+
+    ACTIVE 正常；HAZARD_PENDING 存在未关闭一般隐患；
+    HIGH_HAZARD_BLOCKED 存在未关闭高危隐患，台账与报表禁止显示正常；
+    MAINTENANCE 维保中；RETIRED 停用。
+    """
+
+    ACTIVE = "ACTIVE"
+    HAZARD_PENDING = "HAZARD_PENDING"
+    HIGH_HAZARD_BLOCKED = "HIGH_HAZARD_BLOCKED"
+    MAINTENANCE = "MAINTENANCE"
+    RETIRED = "RETIRED"
+    ALL = (ACTIVE, HAZARD_PENDING, HIGH_HAZARD_BLOCKED, MAINTENANCE, RETIRED)
+    NORMAL_DISPLAY_ALLOWED = (ACTIVE,)
+
+
+class DeviceBaseStatus:
+    """设备主数据状态（不随提交直接覆写）。"""
+
+    NORMAL = "NORMAL"
+    MAINTENANCE = "MAINTENANCE"
+    RETIRED = "RETIRED"
+    ALL = (NORMAL, MAINTENANCE, RETIRED)

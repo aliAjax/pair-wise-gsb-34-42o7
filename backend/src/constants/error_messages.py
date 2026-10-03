@@ -1,1 +1,15 @@
-ERROR_MESSAGES = {"AUTH_REQUIRED": "missing token", "RBAC_DENIED": "role denied", "VALIDATION_FAILED": "invalid payload"}
+ERROR_MESSAGES = {
+    "AUTH_REQUIRED": "缺少身份令牌，请先登录",
+    "AUTH_INVALID": "身份令牌无效或已过期",
+    "RBAC_DENIED": "当前角色无权执行该操作",
+    "VALIDATION_FAILED": "请求参数不合法",
+    "NOT_FOUND": "目标资源不存在",
+    "STATE_CONFLICT": "当前状态不允许该操作",
+    "STALE_TASK_REVISION": "提交基于过期任务修订号，已整包进入冲突区，未覆盖任何结果",
+    "REVIEWED_PROTECTED": "目标检查项已复核，受保护，不允许覆盖",
+    "REVIEW_TARGET_INVALID": "复核点名的检查项不存在或不处于待复核状态",
+    "CHECKLIST_ITEM_INVALID": "检查项内容不合法",
+    "HAZARD_NOT_OPEN": "隐患单当前状态不支持该操作",
+    "RATE_LIMITED": "请求过于频繁，请稍后重试",
+    "INTERNAL_ERROR": "服务内部错误",
+}
