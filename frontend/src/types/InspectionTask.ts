@@ -6,5 +6,6 @@ export interface InspectionTask {
   task_type: string;
   status: string;
   checklist_version: string;
+  revision: number;
   finished_at: string;
 }

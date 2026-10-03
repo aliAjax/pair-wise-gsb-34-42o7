@@ -1,14 +1,17 @@
 import type { InspectionResult } from "../types/InspectionResult";
 
 export const createDefaultInspectionResult = (overrides: Partial<InspectionResult> = {}): InspectionResult => ({
-  id: 1 as never,
-  task_id: 1 as never,
-  device_id: 1 as never,
-  item_code: "item code 1" as never,
-  result_status: "IN_PROGRESS" as never,
-  measured_value: "measured value 1" as never,
-  photo_url: "/mock/photo_url-1.png" as never,
-  note: "note 1" as never,
+  id: 1,
+  task_id: 1,
+  device_id: 1,
+  item_code: "PRESSURE",
+  result_status: "NORMAL",
+  measured_value: "measured value 1",
+  photo_url: "/mock/photo_url-1.png",
+  note: "note 1",
+  submission_id: "",
+  task_revision: 1,
+  review_state: "PENDING",
   ...overrides
 });
 

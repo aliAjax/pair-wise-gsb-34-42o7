@@ -37,8 +37,10 @@ export const mockData = {
       "floor": "floor 1",
       "location_desc": "location desc 1",
       "install_date": "2026-06-11T09:00:00Z",
-      "status": "IN_PROGRESS",
-      "next_maintenance_at": "2026-06-11T09:00:00Z"
+      "status": "NORMAL",
+      "next_maintenance_at": "2026-06-11T09:00:00Z",
+      "open_hazard_count": 0,
+      "open_high_hazard_count": 0
     },
     {
       "id": 2,
@@ -48,8 +50,10 @@ export const mockData = {
       "floor": "floor 2",
       "location_desc": "location desc 2",
       "install_date": "2026-06-12T09:00:00Z",
-      "status": "SUBMITTED",
-      "next_maintenance_at": "2026-06-12T09:00:00Z"
+      "status": "ABNORMAL",
+      "next_maintenance_at": "2026-06-12T09:00:00Z",
+      "open_hazard_count": 1,
+      "open_high_hazard_count": 1
     },
     {
       "id": 3,
@@ -59,8 +63,10 @@ export const mockData = {
       "floor": "floor 3",
       "location_desc": "location desc 3",
       "install_date": "2026-06-13T09:00:00Z",
-      "status": "PLANNED",
-      "next_maintenance_at": "2026-06-13T09:00:00Z"
+      "status": "NORMAL",
+      "next_maintenance_at": "2026-06-13T09:00:00Z",
+      "open_hazard_count": 0,
+      "open_high_hazard_count": 0
     }
   ],
   "inspectionTask": [
@@ -72,7 +78,8 @@ export const mockData = {
       "task_type": "HYDRANT",
       "status": "IN_PROGRESS",
       "checklist_version": "checklist version 1",
-      "finished_at": "2026-06-11T09:00:00Z"
+      "revision": 1,
+      "finished_at": ""
     },
     {
       "id": 2,
@@ -82,6 +89,7 @@ export const mockData = {
       "task_type": "SMOKE_DETECTOR",
       "status": "SUBMITTED",
       "checklist_version": "checklist version 2",
+      "revision": 1,
       "finished_at": "2026-06-12T09:00:00Z"
     },
     {
@@ -92,7 +100,8 @@ export const mockData = {
       "task_type": "SPRINKLER",
       "status": "PLANNED",
       "checklist_version": "checklist version 3",
-      "finished_at": "2026-06-13T09:00:00Z"
+      "revision": 1,
+      "finished_at": ""
     }
   ],
   "inspectionResult": [
@@ -100,63 +109,81 @@ export const mockData = {
       "id": 1,
       "task_id": 1,
       "device_id": 1,
-      "item_code": "item code 1",
-      "result_status": "IN_PROGRESS",
+      "item_code": "PRESSURE",
+      "result_status": "ABNORMAL",
       "measured_value": "measured value 1",
       "photo_url": "/mock/photo_url-1.png",
-      "note": "note 1"
+      "note": "note 1",
+      "submission_id": "",
+      "task_revision": 1,
+      "review_state": "PENDING"
     },
     {
       "id": 2,
       "task_id": 2,
       "device_id": 2,
-      "item_code": "item code 2",
-      "result_status": "SUBMITTED",
+      "item_code": "ALARM_TEST",
+      "result_status": "ABNORMAL",
       "measured_value": "measured value 2",
       "photo_url": "/mock/photo_url-2.png",
-      "note": "note 2"
+      "note": "note 2",
+      "submission_id": "seed-sub-2",
+      "task_revision": 1,
+      "review_state": "SUBMITTED"
     },
     {
       "id": 3,
       "task_id": 3,
       "device_id": 3,
-      "item_code": "item code 3",
-      "result_status": "PLANNED",
+      "item_code": "FLOW_TEST",
+      "result_status": "NORMAL",
       "measured_value": "measured value 3",
       "photo_url": "/mock/photo_url-3.png",
-      "note": "note 3"
+      "note": "note 3",
+      "submission_id": "",
+      "task_revision": 1,
+      "review_state": "PENDING"
+    },
+    {
+      "id": 4,
+      "task_id": 2,
+      "device_id": 2,
+      "item_code": "INDICATOR_LIGHT",
+      "result_status": "ABNORMAL",
+      "measured_value": "measured value 4",
+      "photo_url": "/mock/photo_url-4.png",
+      "note": "note 4",
+      "submission_id": "seed-sub-2",
+      "task_revision": 1,
+      "review_state": "SUBMITTED"
     }
   ],
   "hazardTicket": [
     {
       "id": 1,
-      "result_id": 1,
-      "severity": "severity 1",
+      "result_id": 2,
+      "device_id": 2,
+      "item_code": "ALARM_TEST",
+      "severity": "HIGH",
       "owner_id": 1,
-      "deadline": "deadline 1",
-      "rectify_status": "IN_PROGRESS",
-      "rectify_note": "rectify note 1",
-      "closed_at": "2026-06-11T09:00:00Z"
+      "deadline": "2026-10-10T09:00:00Z",
+      "rectify_status": "OPEN",
+      "rectify_note": "",
+      "submission_id": "seed-sub-2",
+      "closed_at": ""
     },
     {
       "id": 2,
-      "result_id": 2,
-      "severity": "severity 2",
+      "result_id": 4,
+      "device_id": 2,
+      "item_code": "INDICATOR_LIGHT",
+      "severity": "LOW",
       "owner_id": 2,
-      "deadline": "deadline 2",
-      "rectify_status": "SUBMITTED",
+      "deadline": "2026-09-10T09:00:00Z",
+      "rectify_status": "CLOSED",
       "rectify_note": "rectify note 2",
-      "closed_at": "2026-06-12T09:00:00Z"
-    },
-    {
-      "id": 3,
-      "result_id": 3,
-      "severity": "severity 3",
-      "owner_id": 3,
-      "deadline": "deadline 3",
-      "rectify_status": "PLANNED",
-      "rectify_note": "rectify note 3",
-      "closed_at": "2026-06-13T09:00:00Z"
+      "submission_id": "seed-sub-2",
+      "closed_at": "2026-09-01T09:00:00Z"
     }
   ]
 } as const;

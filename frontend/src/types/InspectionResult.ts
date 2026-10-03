@@ -7,4 +7,7 @@ export interface InspectionResult {
   measured_value: string;
   photo_url: string;
   note: string;
+  submission_id: string;
+  task_revision: number;
+  review_state: string;
 }

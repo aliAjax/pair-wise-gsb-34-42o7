@@ -1,8 +1,22 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
+import { EDITABLE_REVIEW_STATES } from "../constants/ReviewState";
+import type { InspectionResult } from "../types/InspectionResult";
 
-export function useChecklistProgress<T>(rows: T[] = []) {
-  const [page, setPage] = useState(1);
-  const pageSize = 8;
-  const pageRows = useMemo(() => rows.slice((page - 1) * pageSize, page * pageSize), [rows, page]);
-  return { page, setPage, pageSize, pageRows, total: rows.length };
+const FROZEN_TASK_STATUSES = ["SUBMITTED", "REVIEWED"];
+
+export function useChecklistProgress(results: InspectionResult[] = [], taskStatus = "") {
+  return useMemo(() => {
+    const taskFrozen = FROZEN_TASK_STATUSES.includes(taskStatus);
+    const isItemEditable = (row: InspectionResult) =>
+      !taskFrozen && EDITABLE_REVIEW_STATES.includes(row.review_state as never);
+    return {
+      total: results.length,
+      submitted: results.filter((row) => row.review_state === "SUBMITTED").length,
+      reviewed: results.filter((row) => row.review_state === "REVIEWED").length,
+      reopened: results.filter((row) => row.review_state === "REOPENED").length,
+      editable: results.filter(isItemEditable).length,
+      taskFrozen,
+      isItemEditable
+    };
+  }, [results, taskStatus]);
 }

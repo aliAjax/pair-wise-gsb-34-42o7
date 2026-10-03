@@ -8,3 +8,6 @@ class InspectionResult(BaseModel):
     measured_value: str
     photo_url: str
     note: str
+    submission_id: str
+    task_revision: int
+    review_state: str

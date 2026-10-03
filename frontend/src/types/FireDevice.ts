@@ -8,4 +8,6 @@ export interface FireDevice {
   install_date: string;
   status: string;
   next_maintenance_at: string;
+  open_hazard_count?: number;
+  open_high_hazard_count?: number;
 }

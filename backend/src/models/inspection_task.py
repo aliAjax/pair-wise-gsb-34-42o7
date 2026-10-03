@@ -7,4 +7,5 @@ class InspectionTask(BaseModel):
     task_type: str
     status: str
     checklist_version: str
+    revision: int
     finished_at: str

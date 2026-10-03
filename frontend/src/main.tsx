@@ -1,53 +1,55 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import { createRoot } from "react-dom/client";
 import { routes } from "./router/routes";
-import { mockData } from "./mocks/seedData";
+import { DashboardPage } from "./pages/DashboardPage";
+import { DevicesPage } from "./pages/DevicesPage";
+import { TasksPage } from "./pages/TasksPage";
+import { HazardsPage } from "./pages/HazardsPage";
+import { ReportsPage } from "./pages/ReportsPage";
 import { StatusBadge } from "./components/common/StatusBadge";
-import { StatCard } from "./components/common/StatCard";
+import { currentRole, setCurrentRole } from "./api/client";
+import { Roles, RoleText } from "./constants/roles";
 import "./styles.css";
 
-function Page({ name }: { name: string }) {
-  const entities = Object.entries(mockData);
-  const total = useMemo(() => entities.reduce((sum, [, rows]) => sum + rows.length, 0), [entities]);
-  return <main className="page">
-    <section className="page-head">
-      <div>
-        <p className="eyebrow">fire-inspect</p>
-        <h1>{name}</h1>
-      </div>
-      <StatusBadge value="LOCAL_DATA" />
-    </section>
-    <section className="metrics">
-      <StatCard label="核心模型" value={entities.length} />
-      <StatCard label="本地记录" value={total} />
-      <StatCard label="共享枚举" value={3} />
-    </section>
-    <section className="workbench">
-      <div className="panel wide">
-        <h2>业务数据</h2>
-        <div className="table">
-          {entities.map(([key, rows]) => <article key={key} className="row">
-            <strong>{key}</strong><span>{rows.length} 条</span><StatusBadge value={Object.values(rows[0] ?? {})[1] as string ?? "READY"} />
-          </article>)}
-        </div>
-      </div>
-      <div className="panel">
-        <h2>联动检查</h2>
-        <p>页面、store、API、构造器、日志模板和枚举常量均按提示词拆分，适合评审跨文件修改能力。</p>
-      </div>
-    </section>
-  </main>;
-}
+const pages: Record<string, () => React.JSX.Element> = {
+  "/dashboard": DashboardPage,
+  "/devices": DevicesPage,
+  "/tasks": TasksPage,
+  "/hazards": HazardsPage,
+  "/reports": ReportsPage
+};
 
 function App() {
   const [active, setActive] = useState<string>(routes[0]?.route ?? "/dashboard");
+  const [role, setRole] = useState(currentRole());
   const current = routes.find((route) => route.route === active) ?? routes[0];
+  const Page = pages[current?.route ?? "/dashboard"] ?? DashboardPage;
   return <div className="shell">
     <aside>
       <div className="brand">消防设施巡检维保平台</div>
       <nav>{routes.map((route) => <button key={route.route} className={active === route.route ? "active" : ""} onClick={() => setActive(route.route)}>{route.name}</button>)}</nav>
+      <div className="role-switch">
+        <label>当前角色</label>
+        <select value={role} onChange={(e) => {
+          const next = e.target.value as typeof role;
+          setCurrentRole(next);
+          setRole(next);
+        }}>
+          {Roles.map((item) => <option key={item} value={item}>{RoleText[item]}</option>)}
+        </select>
+        <StatusBadge value={role} />
+      </div>
     </aside>
-    <Page name={current?.name ?? "工作台"} />
+    <main className="page">
+      <section className="page-head">
+        <div>
+          <p className="eyebrow">fire-inspect</p>
+          <h1>{current?.name ?? "工作台"}</h1>
+        </div>
+        <StatusBadge value={RoleText[role]} />
+      </section>
+      <Page />
+    </main>
   </div>;
 }
 

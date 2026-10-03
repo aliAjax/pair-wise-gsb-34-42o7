@@ -1,5 +1,6 @@
 import { StatusBadge } from "./StatusBadge";
+import { formatRisk } from "../../utils/formatters";
 
-export function HazardSeverityTag({ title = "HazardSeverityTag", value = "READY" }: { title?: string; value?: string }) {
-  return <div className="shared-widget"><strong>{title}</strong><StatusBadge value={value} /></div>;
+export function HazardSeverityTag({ value }: { value: string }) {
+  return <span className="severity"><StatusBadge value={value} />{formatRisk(value)}</span>;
 }
