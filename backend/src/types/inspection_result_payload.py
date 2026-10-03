@@ -1,0 +1,1 @@
+InspectionResultPayload = dict

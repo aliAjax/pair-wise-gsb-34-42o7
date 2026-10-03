@@ -1,0 +1,1 @@
+HazardTicketPayload = dict

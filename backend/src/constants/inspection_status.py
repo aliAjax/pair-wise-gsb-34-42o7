@@ -1,0 +1,1 @@
+InspectionStatus = ["PLANNED","IN_PROGRESS","SUBMITTED","REVIEWED","OVERDUE"]
